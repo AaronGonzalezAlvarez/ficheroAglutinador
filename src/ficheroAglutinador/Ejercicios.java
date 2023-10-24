@@ -8,11 +8,11 @@ public class Ejercicios {
 		EjerciciosTodo Ejercicios = new EjerciciosTodo();
 		//Ejercicios.ejercicio1();
 		//Ejercicios.ejercicio2();
-		//Ejercicios.ejercicio3();
+		Ejercicios.ejercicio3();
 		//Ejercicios.ejercicio4();
 		//Ejercicios.ejercicio5();
 		
-		Ejercicios.ejercicio6();
+		//Ejercicios.ejercicio6();
 		//Ejercicios.ejercicio7();
 		//Ejercicios.ejercicio8(); por hacer
 		//Ejercicios.ejercicio9();

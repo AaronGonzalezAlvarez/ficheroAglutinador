@@ -82,7 +82,7 @@ public class EjerciciosTodo {
                 String surnameTwo = linea.substring(29, 44);
                 String phone = linea.substring(44, 52);
                 System.out.println("id: " + id.trim()+ " name: "+ name.trim()+ " surname: "+ surname.trim()+ " surnameTwo: "+ surnameTwo.trim()+ " phone: "+ phone.trim());
-                bufferedWriter.write("id: " + id.trim()+ " name: "+ name.trim()+ " surname: "+ surname.trim()+ " surnameTwo: "+ surnameTwo.trim()+ " phone: "+ phone.trim());
+                bufferedWriter.write( id+ name+ surname+ surnameTwo+phone);
                 bufferedWriter.newLine();
             }
 
@@ -104,7 +104,7 @@ public class EjerciciosTodo {
             while ((linea = bufferedReader.readLine()) != null) {       
             	String[] datos = linea.split("@");
                 System.out.println("id: " + datos[0]+ " name: "+ datos[1]+ " surname: "+ datos[2]+ " surnameTwo: "+ datos[3]+ " phone: "+ datos[4]);
-                bufferedWriter.write("id: " + datos[0]+ " name: "+ datos[1]+ " surname: "+ datos[2]+ " surnameTwo: "+ datos[3]+ " phone: "+ datos[4]);
+                bufferedWriter.write(datos[0]+ "@"+datos[1]+ "@"+datos[2]+ "@"+datos[3]+ "@"+datos[4]);
                 bufferedWriter.newLine();
             }
 
