@@ -12,11 +12,16 @@ public class Ejercicios {
 		//Ejercicios.ejercicio4();
 		//Ejercicios.ejercicio5();
 		
-		Ejercicios.ejercicio6();
+		//Ejercicios.ejercicio6();
 		//Ejercicios.ejercicio7();
-		//Ejercicios.ejercicio8(); por hacer
+		Ejercicios.ejercicio8();
 		//Ejercicios.ejercicio9();
 		//Ejercicios.ejercicio10(); por hacer
     }
 
 }
+/**
+1001@2356989653
+1001@2356989653
+v
+1001@**/
