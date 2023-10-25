@@ -2,7 +2,7 @@ package ficheroAglutinador;
 
 import java.io.Serializable;
 
-public class Persona implements Serializable {
+public class Person implements Serializable {
 	
 	private int id;	
 	private String name;
@@ -10,7 +10,7 @@ public class Persona implements Serializable {
 	private String surnameTwo;
 	private int phone;
 	
-	public Persona(int id, String name, String surname, String surnameTwo, int phone) {
+	public Person(int id, String name, String surname, String surnameTwo, int phone) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;

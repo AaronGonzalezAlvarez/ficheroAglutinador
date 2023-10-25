@@ -18,27 +18,40 @@ public class EjerciciosTodo {
 	
 	public void ejercicio1() throws IOException {
 		String file = "personas1.txt";
-		existFile(file);
-		System.out.println(readFileTypeOne(file));
+		createFileIfnotExist(file);
+		ArrayList<Person> people = readFileTypeOne(file);
+		for (Person person : people) {
+            System.out.println("ID: "+person.getId()+" NAME: "+person.getName()+" SURNAME: "+ person.getSurname() + " SURNAMETWO: " + person.getSurnameTwo()+" PHONE: "+person.getPhone());
+        }
 	}
 	
 	public void ejercicio2() throws IOException {
 		String file = "personas2.txt";
-		existFile(file);
-		System.out.println(readFileTypeTwo(file));
+		createFileIfnotExist(file);
+		ArrayList<Person> people = readFileTypeTwo(file);
+		for (Person person : people) {
+            System.out.println("ID: "+person.getId()+" NAME: "+person.getName()+" SURNAME: "+ person.getSurname() + " SURNAMETWO: " + person.getSurnameTwo()+" PHONE: "+person.getPhone());
+        }
 	}
 
 	public void ejercicio3() throws IOException {
-
+		ArrayList<Person> personaUnificada = new ArrayList<Person>();
 		String file = "personas1.txt";
-		existFile(file);
-		String data = readFileTypeOne(file);
-		
+		createFileIfnotExist(file);
+		ArrayList<Person> people = readFileTypeOne(file);
+		for (Person person : people) {
+			personaUnificada.add(new Person(person.getId(),person.getName(),person.getSurname(),person.getSurnameTwo(),person.getPhone()));
+        }		
 		file = "personas2.txt";
-		existFile(file);
-		data += readFileTypeTwo(file);
-		System.out.println(data);
-		createLineFile("PersonaUnificado.txt", data);
+		createFileIfnotExist(file);
+		ArrayList<Person> peopleTwo = readFileTypeTwo(file);
+		for (Person person : peopleTwo) {
+			personaUnificada.add(new Person(person.getId(),person.getName(),person.getSurname(),person.getSurnameTwo(),person.getPhone()));
+        }
+		
+		for (Person person : personaUnificada) {
+            System.out.println("ID: "+person.getId()+" NAME: "+person.getName()+" SURNAME: "+ person.getSurname() + " SURNAMETWO: " + person.getSurnameTwo()+" PHONE: "+person.getPhone());
+        }
 	}
 	
 	public void ejercicio4() throws IOException {		
@@ -108,49 +121,16 @@ public class EjerciciosTodo {
 		}                
 	}
 
-	public void ejercicio7() {
+	public void ejercicio7() throws IOException {
 		
 		String url = "personas2_todo.txt";
 		File file = new File(url);
 		if(file.exists()) {
 			System.err.println("El fichero ya existe.");
 		}else {
-			String nombreArchivo = "personas1.txt";
-	        try {
-	            FileReader archivo = new FileReader(nombreArchivo);
-	    		FileWriter archivoEscritura = new FileWriter(url,true);
-	    	    BufferedWriter escritor = new BufferedWriter(archivoEscritura);
-	            BufferedReader bufferedReader = new BufferedReader(archivo);
-	            String linea;
-	            while ((linea = bufferedReader.readLine()) != null) {
-	                String id = linea.substring(0, 4);
-	                String name = linea.substring(4, 14);
-	                String surname = linea.substring(14, 29);
-	                String surnameTwo = linea.substring(29, 44);
-	                String phone = linea.substring(44, 52);
-	                escritor.write(id.trim()+ "@"+ name.trim()+ "@"+ surname.trim()+ "@"+ surnameTwo.trim()+ "@"+ phone.trim()+"\n");
-	            }
-	            bufferedReader.close();      
-	            escritor.close();
-	        } catch (IOException e) {
-	            System.err.println("Error al crear el archivo: " + e.getMessage());
-	        }
-			nombreArchivo = "personas2.txt";
-	        try {
-	            FileReader archivo = new FileReader(nombreArchivo);
-	    		FileWriter archivoEscritura = new FileWriter(url,true);
-	    	    BufferedWriter escritor = new BufferedWriter(archivoEscritura);
-	            BufferedReader bufferedReader = new BufferedReader(archivo);
-	            String linea;
-	            while ((linea = bufferedReader.readLine()) != null) {       
-	            	String[] datos = linea.split("@");
-	                escritor.write(datos[0].trim()+ "@"+ datos[1].trim()+ "@"+ datos[2].trim()+ "@"+ datos[3].trim()+ "@"+ datos[4].trim()+"\n");
-	            }
-	            bufferedReader.close();
-	            escritor.close();
-	        } catch (IOException e) {
-	            System.err.println("Error al crear el archivo: " + e.getMessage());
-	        }	
+			
+			addTextFileFormat(url,"personas1.txt");
+			addTextFileFormat(url,"personas2.txt");
 	        System.out.println("Toda la información a sido volcada en "+url);
 		}					
 	}	
@@ -159,19 +139,30 @@ public class EjerciciosTodo {
 		
 	}
 	
-	//perguntar a sergio
-	public void ejercicio9() {
-		ArrayList<Persona> personasList = new ArrayList<>();
-		personasList.add(new Persona(1,"Aaron","Gonzalez","Alvarez",695236510));
-		personasList.add(new Persona(1,"Jose","Torres","Garcia",632541256));
-		personasList.add(new Persona(1,"Juan","Gonzalez","Alvarez",965236541));
-		personasList.add(new Persona(1,"Pedro","Marquez","Alvarez",369852147));
+	public void ejercicio9() throws IOException {
+		ArrayList<Person> personaUnificada = new ArrayList<Person>();
+		String file = "personas1.txt";
+		createFileIfnotExist(file);
+		ArrayList<Person> people = readFileTypeOne(file);
+		for (Person person : people) {
+			personaUnificada.add(new Person(person.getId(),person.getName(),person.getSurname(),person.getSurnameTwo(),person.getPhone()));
+        }		
+		file = "personas2.txt";
+		createFileIfnotExist(file);
+		ArrayList<Person> peopleTwo = readFileTypeTwo(file);
+		for (Person person : peopleTwo) {
+			personaUnificada.add(new Person(person.getId(),person.getName(),person.getSurname(),person.getSurnameTwo(),person.getPhone()));
+        }
 		
 		//crearmos el archivo y lo guardamos
+		File fileSer = new File("PUserializado.ser");
+		if(fileSer.exists()) {
+			fileSer.delete();
+		}
 		try {
 			FileOutputStream fileOut = new FileOutputStream("PUserializado.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(personasList);
+			out.writeObject(personaUnificada);
 			out.close();
 			fileOut.close();
 		} catch (Exception e) {
@@ -179,20 +170,20 @@ public class EjerciciosTodo {
 		}
 		
 		//leer .ser
-		ArrayList<Persona> leerPersona = null;
+		ArrayList<Person> leerPersona = null;
 		
 		try {
 			FileInputStream fileIn = new FileInputStream("PUserializado.ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
-			leerPersona = (ArrayList<Persona>) in.readObject();
+			leerPersona = (ArrayList<Person>) in.readObject();
 			in.close();
 			fileIn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		for (Persona persona : leerPersona) {
-            System.out.println("id: " + persona.getId() + " name: "+ persona.getName());
+		for (Person persona : leerPersona) {
+            System.out.println("id: " + persona.getId() + " name: "+ persona.getName() + " surname: "+ persona.getSurname() + " name: "+ persona.getSurnameTwo() + " name: "+ persona.getPhone());
         }
 		
 		
@@ -200,6 +191,34 @@ public class EjerciciosTodo {
 	
 	public void ejercicio10() {
 		
+	}
+	
+	private void addTextFileFormat(String urlFile,String urlFileText) throws IOException {
+		createFileIfnotExist(urlFile);
+		try {
+            FileReader archivo = new FileReader(urlFileText);
+    		FileWriter archivoEscritura = new FileWriter(urlFile,true);
+    	    BufferedWriter escritor = new BufferedWriter(archivoEscritura);
+            BufferedReader bufferedReader = new BufferedReader(archivo);
+            String linea;
+            while ((linea = bufferedReader.readLine()) != null) {
+            	if(urlFileText.equals("personas1.txt")) {
+            		String id = linea.substring(0, 4);
+                    String name = linea.substring(4, 14);
+                    String surname = linea.substring(14, 29);
+                    String surnameTwo = linea.substring(29, 44);
+                    String phone = linea.substring(44, 52);
+                    escritor.write(id.trim()+ "@"+ name.trim()+ "@"+ surname.trim()+ "@"+ surnameTwo.trim()+ "@"+ phone.trim()+"\n");
+            	}else {
+            		String[] datos = linea.split("@");
+                escritor.write(datos[0].trim()+ "@"+ datos[1].trim()+ "@"+ datos[2].trim()+ "@"+ datos[3].trim()+ "@"+ datos[4].trim()+"\n");
+            	}                
+            }
+            bufferedReader.close();      
+            escritor.close();
+        } catch (IOException e) {
+            System.err.println("Error al crear el archivo: " + e.getMessage());
+        }
 	}
 	
 	private String addString(String data,int size) {
@@ -215,51 +234,49 @@ public class EjerciciosTodo {
 		}
 	}
 
-	private String readFileTypeOne(String nameFile) {
+	private ArrayList<Person> readFileTypeOne(String nameFile) {		
+		ArrayList<Person> people = new ArrayList<Person>();
 		String nombreArchivo = nameFile;        
         try {
             FileReader archivo = new FileReader(nombreArchivo);
             BufferedReader bufferedReader = new BufferedReader(archivo);
             String linea;
-            String cadena= "";
             while ((linea = bufferedReader.readLine()) != null) {
-                String id = linea.substring(0, 4);
-                String name = linea.substring(4, 14);
-                String surname = linea.substring(14, 29);
-                String surnameTwo = linea.substring(29, 44);
-                String phone = linea.substring(44, 52);
-                String data = "id: " + id.trim()+ " name: "+ name.trim()+ " surname: "+ surname.trim()+ " surnameTwo: "+ surnameTwo.trim()+ " phone: "+ phone.trim()+"\n";
-                cadena+= data;
+                int id = Integer.parseInt(linea.substring(0, 4).trim());
+                String name = linea.substring(4, 14).trim();
+                String surname = linea.substring(14, 29).trim();
+                String surnameTwo = linea.substring(29, 44).trim();
+                int phone = Integer.parseInt(linea.substring(44, 52).trim());        
+                people.add(new Person(id,name,surname,surnameTwo,phone));
             }            
-            bufferedReader.close();  
-            return cadena;
+            bufferedReader.close();
         } catch (IOException e) {
-           return "Error al crear el archivo: " + e.getMessage();
-        }		
+            e.getMessage();
+        }
+		return people;		
 	}
 
-	private String readFileTypeTwo(String nameFile) {
-
+	private ArrayList<Person> readFileTypeTwo(String nameFile) {
+		ArrayList<Person> people = new ArrayList<Person>();
 		String nombreArchivo = nameFile;        
         try {
             FileReader archivo = new FileReader(nombreArchivo);
             BufferedReader bufferedReader = new BufferedReader(archivo);
             String linea;
-            String cadena = "";
             while ((linea = bufferedReader.readLine()) != null) {       
             	String[] datos = linea.split("@");
-                String data ="id: " + datos[0]+ " name: "+ datos[1]+ " surname: "+ datos[2]+ " surnameTwo: "+ datos[3]+ " phone: "+ datos[4]+"\n";
-                cadena +=data;
+            	int id = Integer.parseInt(datos[0]);
+            	int phone = Integer.parseInt(datos[4]);
+                people.add(new Person(id,datos[1],datos[2],datos[3],phone));
             }
             bufferedReader.close(); 
-            return cadena;
         } catch (IOException e) {
-           return "Error al crear el archivo: " + e.getMessage();
+           e.getMessage();
         }
-		
+		return people;		
 	}
 	
-	private void existFile(String url) throws IOException {
+	private void createFileIfnotExist(String url) throws IOException {
 
 		File file = new File(url);
 		if(!file.exists()) {
@@ -268,7 +285,7 @@ public class EjerciciosTodo {
 	}
 	
 	private void createLineFile (String url, String text) throws IOException {
-		existFile(url);		
+		createFileIfnotExist(url);		
 		FileWriter fileWriter = new FileWriter(url,true);
 		BufferedWriter w = new BufferedWriter(fileWriter);
 		w.newLine();
@@ -320,7 +337,8 @@ public class EjerciciosTodo {
 				data+=addString(dateConsola, 8);				
 			}			
 		}		
-		createLineFile("personas1.txt", data);        
+		createLineFile("personas1.txt", data);
+		ejercicio1();
 	}
 	
 	private void readConsoleTwo(String[] datosAPedir) throws IOException {
@@ -340,6 +358,7 @@ public class EjerciciosTodo {
 			}
 			
 		}
-		createLineFile("personas2.txt", data);        
+		createLineFile("personas2.txt", data); 
+		ejercicio2();
 	}
 }
