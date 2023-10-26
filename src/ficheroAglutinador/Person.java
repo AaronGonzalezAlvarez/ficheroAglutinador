@@ -1,6 +1,7 @@
 package ficheroAglutinador;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Person implements Serializable {
 	
@@ -9,6 +10,7 @@ public class Person implements Serializable {
 	private String surname;
 	private String surnameTwo;
 	private int phone;
+	private ArrayList<Line> lines = new ArrayList(); 
 	
 	public Person(int id, String name, String surname, String surnameTwo, int phone) {
 		this.id = id;
@@ -48,5 +50,17 @@ public class Person implements Serializable {
 	public void setPhone(int phone) {
 		this.phone = phone;
 	}
+	
+	public void addLine(Line line) {
+		lines.add(line);
+    }
+
+    public void deleteLine(Line line) {
+    	lines.remove(line);
+    }
+
+    public ArrayList<Line> getLines() {
+        return lines;
+    }
 
 }

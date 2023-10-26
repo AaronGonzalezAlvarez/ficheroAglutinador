@@ -2,6 +2,7 @@ package ficheroAglutinador;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Scanner;
 
 public class EjerciciosTodo {
@@ -135,7 +137,56 @@ public class EjerciciosTodo {
 		}					
 	}	
 	
-	public void ejercicio8() {
+	public void ejercicio8() throws IOException {
+		String newFile ="UnificadoValorTexto.txt";
+		String newFileBinaire = "UnificadoValorBinario.txt";
+		
+		FileWriter newFileWriter = new FileWriter(newFile);
+		BufferedWriter w = new BufferedWriter(newFileWriter);
+		
+		FileOutputStream ileOutputStream = new FileOutputStream(newFileBinaire);
+		DataOutputStream wFileBinaire = new DataOutputStream(ileOutputStream);
+		ArrayList<Person> personaUnificada = new ArrayList<Person>();
+		Random rand = new Random();
+		String file = "personas1.txt";
+		createFileIfnotExist(file);
+		ArrayList<Person> people = readFileTypeOne(file);
+		for (Person person : people) {
+			personaUnificada.add(new Person(person.getId(),person.getName(),person.getSurname(),person.getSurnameTwo(),person.getPhone()));			
+        }		
+		file = "personas2.txt";
+		createFileIfnotExist(file);
+		ArrayList<Person> peopleTwo = readFileTypeTwo(file);
+		for (Person person : peopleTwo) {
+			personaUnificada.add(new Person(person.getId(),person.getName(),person.getSurname(),person.getSurnameTwo(),person.getPhone()));
+        }
+		
+		for (Person person : personaUnificada) {			
+			w.write("ID: "+person.getId()+" NAME: "+person.getName()+" SURNAME: "+ person.getSurname() + " SURNAMETWO: " + person.getSurnameTwo()+" PHONE: "+person.getPhone());       
+			w.newLine();
+			
+			String cadena = "ID: "+person.getId()+" NAME: "+person.getName()+" SURNAME: "+ person.getSurname() + " SURNAMETWO: " + person.getSurnameTwo()+" PHONE: "+person.getPhone();
+			byte[] stringByte = cadena.getBytes("UTF-8"); 
+			wFileBinaire.writeInt(stringByte.length);
+			wFileBinaire.write(stringByte);
+			
+			int numeroAleatorio = rand.nextInt(11) + 90;
+			for(int x=0; x<numeroAleatorio;x++) {
+				Long num= numRamdon();				
+				w.write(person.getId()+"@"+num);
+				w.newLine();
+				
+				cadena = person.getId()+"@"+num;
+				byte[] stringByteTwo = cadena.getBytes("UTF-8"); 
+				wFileBinaire.writeInt(stringByteTwo.length);
+				wFileBinaire.write(stringByteTwo);
+			}
+        }
+		wFileBinaire.close();
+		w.close();
+		newFileWriter.close();
+		
+		System.out.println("Archivos creados correctamente.");
 		
 	}
 	
@@ -189,8 +240,75 @@ public class EjerciciosTodo {
 		
 	}
 	
-	public void ejercicio10() {
+	public void ejercicio10() throws IOException {
+		ArrayList<Person> personaUnificada = new ArrayList<Person>();
+		Random rand = new Random();
+		String file = "personas1.txt";
+		createFileIfnotExist(file);
+		ArrayList<Person> people = readFileTypeOne(file);
+		for (Person person : people) {
+			personaUnificada.add(new Person(person.getId(),person.getName(),person.getSurname(),person.getSurnameTwo(),person.getPhone()));			
+        }		
+		file = "personas2.txt";
+		createFileIfnotExist(file);
+		ArrayList<Person> peopleTwo = readFileTypeTwo(file);
+		for (Person person : peopleTwo) {
+			personaUnificada.add(new Person(person.getId(),person.getName(),person.getSurname(),person.getSurnameTwo(),person.getPhone()));
+        }
+		for (Person person : personaUnificada) {
+			int numeroAleatorio = rand.nextInt(11) + 90;
+			for(int x=0; x<numeroAleatorio;x++) {
+				Long num= numRamdon();
+				person.addLine(new Line(person.getId(),num));
+			}
+        }			
+		//crearmos el archivo y lo guardamos
+		File fileSer = new File("PUserializadoExtendido.ser");
+		if(fileSer.exists()) {
+			fileSer.delete();
+		}
+		try {
+			FileOutputStream fileOut = new FileOutputStream("PUserializadoExtendido.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(personaUnificada);
+			out.close();
+			fileOut.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+		//leer .ser
+		ArrayList<Person> leerPersona = null;
+		
+		try {
+			FileInputStream fileIn = new FileInputStream("PUserializadoExtendido.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			leerPersona = (ArrayList<Person>) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		for (Person persona : leerPersona) {
+            System.out.println("id: " + persona.getId() + " name: "+ persona.getName() + " surname: "+ persona.getSurname() + " name: "+ persona.getSurnameTwo() + " name: "+ persona.getPhone());
+            for(Line line: persona.getLines()) {
+            	System.out.println("\tID: "+ line.getId() + " NUM: "+line.getNum());
+            }
+        }
+		
+	}
+	
+	private Long numRamdon() {
+		Random rand = new Random();
+        long rangoMinimo = 123456789L;
+        long rangoMaximo = 999999999L;
+        long numeroAleatorio = rand.nextLong();
+        if (numeroAleatorio < 0) {
+            numeroAleatorio = Math.abs(numeroAleatorio);
+        }
+        numeroAleatorio = numeroAleatorio % (rangoMaximo - rangoMinimo + 1) + rangoMinimo;
+		return numeroAleatorio;		
 	}
 	
 	private void addTextFileFormat(String urlFile,String urlFileText) throws IOException {
