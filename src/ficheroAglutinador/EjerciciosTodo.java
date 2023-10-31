@@ -353,6 +353,10 @@ public class EjerciciosTodo {
 		}
 	}
 
+	private void escribirEnBinario(String url, ArrayList<Person> texto) {
+		
+	}
+	
 	private ArrayList<Person> readFileTypeOne(String nameFile) {		
 		ArrayList<Person> people = new ArrayList<Person>();
 		String nombreArchivo = nameFile;        
