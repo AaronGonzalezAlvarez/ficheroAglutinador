@@ -19,6 +19,7 @@ import java.util.Scanner;
 public class EjerciciosTodo {
 	
 	public void ejercicio1() throws IOException {
+		System.out.println("Ejercicio1");
 		String file = "personas1.txt";
 		createFileIfnotExist(file);
 		ArrayList<Person> people = readFileTypeOne(file);
@@ -28,6 +29,7 @@ public class EjerciciosTodo {
 	}
 	
 	public void ejercicio2() throws IOException {
+		System.out.println("Ejercicio2");
 		String file = "personas2.txt";
 		createFileIfnotExist(file);
 		ArrayList<Person> people = readFileTypeTwo(file);
@@ -37,6 +39,7 @@ public class EjerciciosTodo {
 	}
 
 	public void ejercicio3() throws IOException {
+		System.out.println("Ejercicio3");
 		ArrayList<Person> personaUnificada = new ArrayList<Person>();
 		String file = "personas1.txt";
 		createFileIfnotExist(file);
@@ -56,7 +59,8 @@ public class EjerciciosTodo {
         }
 	}
 	
-	public void ejercicio4() throws IOException {		
+	public void ejercicio4() throws IOException {
+		System.out.println("Ejercicio4");
 		String[] data = new String[5];
 		data[0] = "ID";
 		data[1] = "NAME";
@@ -67,6 +71,7 @@ public class EjerciciosTodo {
 	}
 
 	public void ejercicio5() throws IOException {
+		System.out.println("Ejercicio5");
 		String[] data = new String[5];
 		data[0] = "ID";
 		data[1] = "NAME";
@@ -77,6 +82,7 @@ public class EjerciciosTodo {
 	}
 	
 	public void ejercicio6() {		
+		System.out.println("Ejercicio6");
 		String url = "personas1_todo.txt";
 		File file = new File(url);
 		if(file.exists()) {
@@ -124,6 +130,7 @@ public class EjerciciosTodo {
 	}
 
 	public void ejercicio7() throws IOException {
+		System.out.println("Ejercicio7");
 		
 		String url = "personas2_todo.txt";
 		File file = new File(url);
@@ -138,6 +145,7 @@ public class EjerciciosTodo {
 	}	
 	
 	public void ejercicio8() throws IOException {
+		System.out.println("Ejercicio8");
 		String newFile ="UnificadoValorTexto.txt";
 		String newFileBinaire = "UnificadoValorBinario.txt";
 		
@@ -161,25 +169,16 @@ public class EjerciciosTodo {
 			personaUnificada.add(new Person(person.getId(),person.getName(),person.getSurname(),person.getSurnameTwo(),person.getPhone()));
         }
 		
-		for (Person person : personaUnificada) {			
-			w.write("ID: "+person.getId()+" NAME: "+person.getName()+" SURNAME: "+ person.getSurname() + " SURNAMETWO: " + person.getSurnameTwo()+" PHONE: "+person.getPhone());       
-			w.newLine();
-			
-			String cadena = "ID: "+person.getId()+" NAME: "+person.getName()+" SURNAME: "+ person.getSurname() + " SURNAMETWO: " + person.getSurnameTwo()+" PHONE: "+person.getPhone();
-			byte[] stringByte = cadena.getBytes("UTF-8"); 
-			wFileBinaire.writeInt(stringByte.length);
-			wFileBinaire.write(stringByte);
-			
+		for (Person person : personaUnificada) {
 			int numeroAleatorio = rand.nextInt(11) + 90;
 			for(int x=0; x<numeroAleatorio;x++) {
-				Long num= numRamdon();				
+				int num= numRamdon();				
 				w.write(person.getId()+"@"+num);
 				w.newLine();
+				wFileBinaire.writeInt(person.getId());
+				wFileBinaire.writeChar('@');
+				wFileBinaire.writeInt(numeroAleatorio);
 				
-				cadena = person.getId()+"@"+num;
-				byte[] stringByteTwo = cadena.getBytes("UTF-8"); 
-				wFileBinaire.writeInt(stringByteTwo.length);
-				wFileBinaire.write(stringByteTwo);
 			}
         }
 		wFileBinaire.close();
@@ -191,6 +190,7 @@ public class EjerciciosTodo {
 	}
 	
 	public void ejercicio9() throws IOException {
+		System.out.println("Ejercicio9");
 		ArrayList<Person> personaUnificada = new ArrayList<Person>();
 		String file = "personas1.txt";
 		createFileIfnotExist(file);
@@ -241,6 +241,7 @@ public class EjerciciosTodo {
 	}
 	
 	public void ejercicio10() throws IOException {
+		System.out.println("Ejercicio10");
 		ArrayList<Person> personaUnificada = new ArrayList<Person>();
 		Random rand = new Random();
 		String file = "personas1.txt";
@@ -258,7 +259,7 @@ public class EjerciciosTodo {
 		for (Person person : personaUnificada) {
 			int numeroAleatorio = rand.nextInt(11) + 90;
 			for(int x=0; x<numeroAleatorio;x++) {
-				Long num= numRamdon();
+				int num= numRamdon();
 				person.addLine(new Line(person.getId(),num));
 			}
         }			
@@ -299,11 +300,11 @@ public class EjerciciosTodo {
 		
 	}
 	
-	private Long numRamdon() {
+	private int numRamdon() {
 		Random rand = new Random();
-        long rangoMinimo = 123456789L;
-        long rangoMaximo = 999999999L;
-        long numeroAleatorio = rand.nextLong();
+        int rangoMinimo = 123456789;
+        int rangoMaximo = 999999999;
+        int numeroAleatorio = rand.nextInt();
         if (numeroAleatorio < 0) {
             numeroAleatorio = Math.abs(numeroAleatorio);
         }

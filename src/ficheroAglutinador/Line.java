@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class Line implements Serializable {
 	
 	private int id;
-	private Long num;
+	private int num;
 	
-	public Line(int id, Long num) {
+	public Line(int id, int num) {
 		this.id = id;
 		this.num = num;
 	}
@@ -20,11 +20,11 @@ public class Line implements Serializable {
 		this.id = id;
 	}
 
-	public Long getNum() {
+	public int getNum() {
 		return num;
 	}
 
-	public void setNum(Long num) {
+	public void setNum(int num) {
 		this.num = num;
 	}
 	
